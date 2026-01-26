@@ -89,12 +89,13 @@ body {
   transform-style: preserve-3d;
 }
 
-.card:hover .card-inner {
-  transform: rotateY(180deg);
+@media (hover: hover) {
+  .card:hover .card-inner {
+    transform: rotateY(180deg);
+  }
 }
 
-/* Allow JS to flip cards on mobile */
-.card-inner.flipped {
+.card.active .card-inner {
   transform: rotateY(180deg);
 }
 
@@ -162,6 +163,7 @@ body {
     opacity: 0.8;
     margin-top: 5px;
 }
+
 
 
 
