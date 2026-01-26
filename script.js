@@ -185,37 +185,53 @@ ghibliFilms.forEach(film => {
 
     filmsGrid.appendChild(card);
 
-// Desktop hover
-card.addEventListener('mouseenter', () => {
-    document.body.style.backgroundImage = `url(${film.poster})`;
-
-    document.querySelectorAll('.card').forEach(c => {
-        if (c !== card) c.classList.add('dimmed');
-    });
-});
-
-card.addEventListener('mouseleave', () => {
-    document.body.style.backgroundImage =
-      `url("images/e9ddf542-dc9d-477b-ae48-68dba1412460.jpg")`;
-
-    document.querySelectorAll('.card').forEach(c => {
-        c.classList.remove('dimmed');
-    });
-});
-
-// 📱 Mobile + desktop tap
-card.addEventListener('click', () => {
-    document.body.style.backgroundImage = `url(${film.poster})`;
-
-    document.querySelectorAll('.card').forEach(c => {
-        c.classList.remove('dimmed');
-        c.classList.remove('active');
+    // Desktop hover background effect
+    // We wrap this in a check to ensure it doesn't fire weirdly on touch
+    card.addEventListener('mouseenter', () => {
+        // Only change background on hover if the device supports hover
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.body.style.backgroundImage = url(${film.poster});
+            document.querySelectorAll('.card').forEach(c => {
+                if (c !== card) c.classList.add('dimmed');
+            });
+        }
     });
 
-    card.classList.add('active');
-
-    document.querySelectorAll('.card').forEach(c => {
-        if (c !== card) c.classList.add('dimmed');
+    card.addEventListener('mouseleave', () => {
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.body.style.backgroundImage = url("images/e9ddf542-dc9d-477b-ae48-68dba1412460.jpg");
+            document.querySelectorAll('.card').forEach(c => {
+                c.classList.remove('dimmed');
+            });
+        }
     });
-});
+
+    // 📱 Mobile + Desktop Click/Tap
+    card.addEventListener('click', (e) => {
+        // Prevent immediate closing if clicking a link inside (optional safety)
+        e.stopPropagation();
+
+        // Check if this card is already active
+        const isActive = card.classList.contains('active');
+
+        // 1. Reset ALL cards first
+        document.querySelectorAll('.card').forEach(c => {
+            c.classList.remove('active');
+            c.classList.remove('dimmed');
+        });
+
+        // 2. Reset background to default
+        document.body.style.backgroundImage = url("images/e9ddf542-dc9d-477b-ae48-68dba1412460.jpg");
+
+        // 3. If the clicked card wasn't already active, make it active now
+        if (!isActive) {
+            card.classList.add('active');
+            document.body.style.backgroundImage = url(${film.poster});
+            
+            // Dim other cards
+            document.querySelectorAll('.card').forEach(c => {
+                if (c !== card) c.classList.add('dimmed');
+            });
+        }
+    });
 });
