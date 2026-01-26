@@ -89,19 +89,14 @@ body {
   transform-style: preserve-3d;
 }
 
-@media (hover: hover) {
-  .card:hover .card-inner {
-    transform: rotateY(180deg);
-  }
-}
-
-
-/* Allow JS to flip cards on mobile */
-.card.active .card-inner {
+.card:hover .card-inner {
   transform: rotateY(180deg);
 }
 
-
+/* Allow JS to flip cards on mobile */
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
 
 /* Card front/back */
 .card-front, .card-back {
@@ -167,6 +162,7 @@ body {
     opacity: 0.8;
     margin-top: 5px;
 }
+
 
 
 
